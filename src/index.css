@@ -1,5 +1,5 @@
 /* src/index.css
-   Light theme + normal layout (no flex-centering) */
+   Light theme + embed-friendly layout + mobile polish + anti-wiggle */
 
 :root{
   /* Typography */
@@ -7,41 +7,42 @@
                Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
   line-height: 1.5;
   font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   /* Force light mode */
   color-scheme: light;
 
-  /* Page colors */
+  /* Colors */
   --bg: #ffffff;
-  --bg-soft: #f6f7f9;
-  --text: #111827;      /* slate-900 */
-  --muted: #4b5563;     /* slate-600 */
-  --border: #e5e7eb;    /* slate-200 */
+  --surface: #ffffff;
+  --surface-soft: #f6f7f9;
+  --text: #0f172a;        /* slate-900 */
+  --muted: #475569;       /* slate-600 */
+  --border: #e5e7eb;      /* slate-200 */
 
-  /* Brand-ish accents (tune if you want) */
-  --accent: #0aa89e;    /* teal */
+  /* Accent (teal button / links) */
+  --accent: #0aa89e;
   --accent-dark: #07857d;
-
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Reset-ish */
+/* Base reset */
 *{ box-sizing:border-box; }
 html, body{ height:100%; }
-
 body{
-  margin: 0;
+  margin:0;
   background: var(--bg);
   color: var(--text);
+  overflow-x: hidden; /* anti-wiggle */
 }
 
-/* Make the React app fill normally */
+/* Root should behave like a normal page (not centered) */
 #root{
   min-height: 100vh;
   width: 100%;
   background: var(--bg);
+  overflow-x: hidden; /* anti-wiggle */
 }
 
 /* Links */
@@ -50,41 +51,51 @@ a{
   text-decoration: none;
   border-bottom: 1px solid transparent;
 }
-a:hover{
-  border-bottom-color: currentColor;
+a:hover{ border-bottom-color: currentColor; }
+
+/* Generic element defaults */
+h1, h2, h3{
+  margin: 0 0 10px 0;
+  color: var(--text);
+}
+p{
+  margin: 0 0 14px 0;
+  color: var(--muted);
 }
 
-/* If any generic buttons exist, keep them readable.
-   (Your quiz button uses inline styles, so this is mostly fallback.) */
-button{
-  font: inherit;
-  color: inherit;
-}
+/* Make sure images/icons never cause overflow */
+img, svg{ max-width: 100%; }
 
-/* Prevent accidental global centering from any defaults */
-main, section, article, div{
-  text-align: inherit;
-}
-/* --- Prevent horizontal scroll on small screens --- */
-html, body, #root{
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* Images/SVGs can sometimes cause overflow */
-img, svg{
-  max-width: 100%;
-}
-@media (max-width: 420px){
-  /* Reduce default text size slightly */
-  body{
-    font-size: 15px;
+/* --------- Mobile polish for the quiz ---------
+   Your quiz uses inline styles, so we enforce a better mobile layout by:
+   - removing large outer padding/radius
+   - making the top-level wrapper fill the screen
+   - reducing spacing/heading size
+*/
+@media (max-width: 520px){
+  #root{
+    padding: 0 !important;
   }
 
-  /* If the app uses a big wrapper padding, tighten it */
-  #root{
-    padding-left: 0;
-    padding-right: 0;
+  /* The outer wrapper is typically the first child div under #root */
+  #root > div{
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 16px 14px 20px !important;
+    border-radius: 0 !important;
+  }
+
+  /* Headline a bit smaller so it fits */
+  h1{
+    font-size: 26px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Cards inside still keep some rounding, but not huge */
+  #root div[style*="border-radius: 20px"],
+  #root div[style*="border-radius: 18px"],
+  #root div[style*="border-radius: 16px"]{
+    border-radius: 12px !important;
   }
 }

@@ -1,5 +1,5 @@
 /* src/App.css
-   Remove Vite starter layout constraints */
+   Kill Vite starter constraints so the app behaves normally inside an iframe */
 
 #root{
   max-width: none;
