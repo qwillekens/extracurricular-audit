@@ -65,3 +65,26 @@ button{
 main, section, article, div{
   text-align: inherit;
 }
+/* --- Prevent horizontal scroll on small screens --- */
+html, body, #root{
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Images/SVGs can sometimes cause overflow */
+img, svg{
+  max-width: 100%;
+}
+@media (max-width: 420px){
+  /* Reduce default text size slightly */
+  body{
+    font-size: 15px;
+  }
+
+  /* If the app uses a big wrapper padding, tighten it */
+  #root{
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
